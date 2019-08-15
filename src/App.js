@@ -31,7 +31,15 @@ class App extends Component {
   getVehicles() {
     // axios (GET)
     // setState with response -> vehiclesToDisplay
-  }
+    axios.get("https://joes-autos.herokuapp.com/api/vehicles").then((response) => {
+      console.log(response.data);
+      toast.success('successful response');
+    this.setState({
+      vehiclesToDisplay: response.data
+    });
+    }).catch(err => console.log(err));
+
+    }
 
   getPotentialBuyers() {
     // axios (GET)
@@ -41,6 +49,13 @@ class App extends Component {
   sellCar(id) {
     // axios (DELETE)
     // setState with response -> vehiclesToDisplay
+    axios.delete(`https://joes-autos.herokuapp.com/api/vehicles/${id}`).then((response) => {
+      console.log(response.data);
+      toast.success('This vehicle has been sold!');
+      this.setState({
+        vehiclesToDisplay: response.data.vehicles
+  });
+    })
   }
 
   filterByMake() {
@@ -60,6 +75,13 @@ class App extends Component {
   updatePrice(priceChange, id) {
     // axios (PUT)
     // setState with response -> vehiclesToDisplay
+    axios.put(`https://joes-autos.herokuapp.com/api/vehicles/${id}/${priceChange}`).then((response) => {
+    console.log(response.data);
+    toast.success('successful update');
+    this.setState({
+      vehiclesToDisplay: response.data.vehicles
+    })
+    })
   }
 
   addCar() {
@@ -73,6 +95,17 @@ class App extends Component {
 
     // axios (POST)
     // setState with response -> vehiclesToDisplay
+    axios.post(`https://joes-autos.herokuapp.com/api/vehicles/`, newCar).then((response) => {
+      console.log(response.data);
+      toast.success("You've posted");
+      this.setState({
+        vehiclesToDisplay: response.data.vehicles
+      });
+    }).catch((error) => {
+      toast.error("Your post was not successful");
+      console.log('Error occurred', error);
+    })
+    
   }
 
   addBuyer() {
@@ -89,6 +122,13 @@ class App extends Component {
   deleteBuyer(id) {
     // axios (DELETE)
     //setState with response -> buyersToDisplay
+    axios.delete(`https://joes-autos.herokuapp.com/api/vehicles/${id}`)((response) => {
+      console.log(response.data);
+      toast.success('This user has been deleted!');
+      this.setState({
+        buyersToDisplay: response.data.buyer
+      })
+    })
   }
 
   nameSearch() {
